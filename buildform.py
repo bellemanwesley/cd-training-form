@@ -46,6 +46,23 @@ def create_pdf(output_path, logo_path, organization,members):
             form.choice(name=f'Choice{i+1}', tooltip='Select Course', value='Select',
                 options=options_list, x=width / 2, y=y_position - 15, width=150, height=20)
             y_position -= 0.4 * inch
+        #Check if y_position is less than 1 inch from the bottom of the page
+        if y_position < inch:
+            #If so, create a new page
+            c.showPage()
+            #Draw the title at the top left
+            c.setFont("Helvetica-Bold", 18)
+            c.drawString(inch, height - inch, organization)
+            #Draw the logo at the top right
+            c.drawImage(logo_path, width - inch - logo_size, height - 2 * inch, width=logo_size, height=logo_size)
+            #Draw the subtitle
+            c.setFont("Helvetica", 14)
+            c.drawString(inch, height - inch * 1.5, "Cyber Dawn Course Registration Form")
+            #Draw headers for the table
+            c.setFont("Helvetica-Bold", 12)
+            c.drawString(inch, height - 2 * inch, "Name")
+            c.drawString(width / 2, height - 2 * inch, "Course Selection")
+            y_position = height - 2.5 * inch
 
     # Finalize and save the PDF
     c.save()
